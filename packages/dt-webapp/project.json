@@ -1,0 +1,67 @@
+{
+  "name": "dt-webapp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/dt-webapp/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/dt-webapp"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dt-webapp:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "dt-webapp:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "dt-webapp:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dt-webapp:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "dt-webapp:build:development"
+        },
+        "production": {
+          "buildTarget": "dt-webapp:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/packages/dt-webapp"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": []
+}

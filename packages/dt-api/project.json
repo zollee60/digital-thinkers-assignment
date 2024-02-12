@@ -1,0 +1,52 @@
+{
+  "name": "dt-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/dt-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/packages/dt-api",
+        "main": "packages/dt-api/src/main.ts",
+        "tsConfig": "packages/dt-api/tsconfig.app.json",
+        "assets": ["packages/dt-api/src/assets"],
+        "webpackConfig": "packages/dt-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dt-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "dt-api:build:development"
+        },
+        "production": {
+          "buildTarget": "dt-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/dt-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
