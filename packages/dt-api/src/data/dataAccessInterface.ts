@@ -1,7 +1,7 @@
-import { DriverSource } from './models/Driver';
+import { Driver, DriverSource } from './models/Driver';
 
 export interface DataAccessInterface {
-  getDrivers(): Promise<DriverSource[]>;
-  getDriver(id: string): Promise<DriverSource>;
-  updateDriver(driver: DriverSource): Promise<void>;
+  getDrivers(): Promise<Driver[]>;
+  getDriver(id: number): Promise<Driver>;
+  updateDriver(newDriver: Partial<Driver>): Promise<void>;
 }
