@@ -1,16 +1,12 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import express from 'express';
 import * as path from 'path';
 import { createInMemoryDataAccess } from './data/inMemoryDataAccess';
 import { createDriverService } from './services/driverService';
 import { GetDrivers } from './routes/getDrivers';
 import { PostOvertake } from './routes/postOvertake';
+import logger from 'pino-http';
 
-const jsonPath = path.join(__dirname, 'drivers.json');
+const jsonPath = path.join(__dirname, '/assets/drivers.json');
 
 const dataAccess = createInMemoryDataAccess(jsonPath);
 
@@ -23,6 +19,8 @@ const endpoints = [
 
 const app = express();
 
+app.use(logger());
+
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 endpoints.forEach((endpoint) => {
@@ -33,6 +31,12 @@ endpoints.forEach((endpoint) => {
       body: req.body,
     };
     const output = await endpoint.handler(input);
+    req.log.info({
+      method: req.method,
+      path: req.path,
+      input: input,
+      output: output,
+    });
     res.status(output.statusCode).json(output.body);
   });
 });
