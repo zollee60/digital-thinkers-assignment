@@ -1,49 +1,77 @@
-import NxWelcome from './nx-welcome';
-
 import { Route, Routes, Link } from 'react-router-dom';
+import { Layout, Menu, Flex, Typography, theme } from 'antd';
+import { DriverProvider } from '../components/DriverProvider';
+import { DriverSet } from '../components/DriverSet';
+
+const { Header, Content, Footer } = Layout;
 
 export function App() {
-  return (
-    <div>
-      <NxWelcome title="dt-webapp" />
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
+  const { Title } = Typography;
+
+  return (
+    <DriverProvider>
+      <div>
+        <Layout>
+          <Header style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="demo-logo" />
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['2']}
+              style={{ flex: 1, minWidth: 0 }}
+            >
+              <Menu.Item key="1">
+                <Link to="/">Home</Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to="/drivers">Drivers</Link>
+              </Menu.Item>
+            </Menu>
+          </Header>
+
+          <Content style={{ padding: '0 48px', marginTop: '2rem' }}>
+            <div
+              style={{
+                background: colorBgContainer,
+                minHeight: '80vh',
+                padding: 24,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <Flex justify="center" style={{ textAlign: 'center' }}>
+                      <Flex vertical>
+                        <Title> Digital Thinkers Home Assignment</Title>
+                        <Title level={2}>Created by Toth Mark Zoltan</Title>
+                      </Flex>
+                    </Flex>
+                  }
+                />
+                <Route
+                  path="/drivers"
+                  element={
+                    <div>
+                      <DriverSet></DriverSet>
+                    </div>
+                  }
+                />
+              </Routes>
+            </div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>
+            Toth Mark Zoltan ©{new Date().getFullYear()} Created by TMZ Corp
+          </Footer>
+        </Layout>
+        {/* END: routes */}
       </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
-    </div>
+    </DriverProvider>
   );
 }
 
