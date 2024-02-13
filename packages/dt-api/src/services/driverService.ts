@@ -3,7 +3,7 @@ import { Driver } from '../data/models/Driver';
 
 export interface DriverService {
   getDrivers: () => Promise<Driver[]>;
-  getDriver: (id: string) => Promise<Driver>;
+  getDriver: (id: string) => Promise<Driver | undefined>;
   overtake: (driverId: number) => Promise<void>;
 }
 
@@ -26,13 +26,13 @@ export const createDriverService = (
         driverId
       );
 
-      console.debug('overtakingDriver', overtakingDriver);
+      if (!overtakingDriver) {
+        throw new Error('Driver not found');
+      }
 
       const overtakenDriver = (await dependencies.dataAccess.getDrivers()).find(
         (d) => d.place === overtakingDriver.place - 1
       );
-
-      console.debug('overtakenDriver', overtakenDriver);
 
       if (!overtakenDriver) {
         throw new Error('No driver to overtake');
