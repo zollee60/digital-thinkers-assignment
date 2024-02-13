@@ -29,7 +29,7 @@ export class InMemoryDataAccess implements DataAccessInterface {
       return {
         ...driver,
         place: idx + 1,
-        imgUrl: `/static/${driver.code.toLowerCase()}.png`,
+        imgUrl: `/assets/${driver.code.toLowerCase()}.png`,
       };
     });
   }
