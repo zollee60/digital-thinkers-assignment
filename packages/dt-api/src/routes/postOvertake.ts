@@ -1,5 +1,9 @@
 import { Driver } from '../data/models/Driver';
-import { Endpoint } from '../networking/endpoint';
+import {
+  Endpoint,
+  EndpointError,
+  HttpStatusCode,
+} from '../networking/endpoint';
 import { DriverService } from '../services/driverService';
 
 export type PostOvertakeInput = {
@@ -9,7 +13,7 @@ export type PostOvertakeInput = {
 };
 
 export type PostOvertakeOutput = {
-  statusCode: 200;
+  statusCode: HttpStatusCode;
   body: {
     driver: Driver;
   };
@@ -27,18 +31,32 @@ export class PostOvertake
 
   constructor(private dependencies: PostOvertakeEndpointImplDependencies) {}
 
-  async handler(input: PostOvertakeInput): Promise<PostOvertakeOutput> {
-    const driverId = parseInt(input.params.driverId);
+  async handler(
+    input: PostOvertakeInput
+  ): Promise<PostOvertakeOutput | EndpointError> {
+    try {
+      const driverId = parseInt(input.params.driverId);
 
-    await this.dependencies.driverService.overtake(driverId);
-    const driver = await this.dependencies.driverService.getDriver(
-      input.params.driverId.toString()
-    );
-    return {
-      statusCode: 200,
-      body: {
-        driver,
-      },
-    };
+      await this.dependencies.driverService.overtake(driverId);
+      const driver = await this.dependencies.driverService.getDriver(
+        input.params.driverId.toString()
+      );
+      if (!driver) {
+        throw new Error('Driver not found');
+      }
+      return {
+        statusCode: 200,
+        body: {
+          driver,
+        },
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: {
+          message: error.message,
+        },
+      };
+    }
   }
 }
