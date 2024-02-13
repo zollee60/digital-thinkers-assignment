@@ -15,14 +15,9 @@ The project contains 2 other packages (`dt-api-e2e`, `dt-webapp-e2e`). I did not
 
 (You can use the NX Console VSCode extension, if you don't want to use the terminal)
 
-## Understand this workspace
+## Potential improvements:
 
-Run `nx graph` to see a diagram of the dependencies of the projects.
-
-## Remote caching
-
-Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and make CI faster.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+- Removing the images from the assets folder and using a CMS system / S3 bucket
+- Implementing an error boundary, so it's not necessary for every endpoint to handle errors individually
+- Removing unnecessary dependencies (ex.: tailwind)
+- Sharing the `Driver` model between the API and the frontend via a shared package
