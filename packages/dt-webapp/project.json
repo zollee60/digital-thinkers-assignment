@@ -6,9 +6,14 @@
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
+        "styles": [
+          "styles/global.css"
+        ],
         "outputPath": "dist/packages/dt-webapp"
       },
       "configurations": {
@@ -24,7 +29,8 @@
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "dt-webapp:build"
+        "buildTarget": "dt-webapp:build",
+        "proxyConfig": "packages/dt-webapp/proxy.conf.json"
       },
       "configurations": {
         "development": {
@@ -54,7 +60,9 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../coverage/packages/dt-webapp"
       }
